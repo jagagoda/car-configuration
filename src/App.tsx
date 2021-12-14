@@ -9,8 +9,8 @@ align-items: start;
 width: 100%;
 height: 100vh;
 padding-top: 50px;
+font-family: Roboto, sans-serif;
 `;
-
 
 const App: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
