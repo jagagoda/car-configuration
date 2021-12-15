@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import styled from 'styled-components';
-import { SubtitleElement } from '../SubtitleElement';
+import { SubtitleElement } from './SubtitleElement';
+import { Color } from './types';
 
 const StyledText = styled.div`
 display: flex;
@@ -20,23 +21,33 @@ const ShowColor = styled.div`
 width: 50px;
 height: 50px;
 border-radius: 50%;
-background-color: red;
+background-color: ${props => props.color};
 `;
 
 
 interface Props {
+  color: Color | null,
   text: string;
   type: string;
   price: number;
 }
 
-export const CarColorElement: FC<Props> = ({ text, price, type }: Props) => {
+export const CarColorElement: FC<Props> = (props: Props) => {
+  const { color, text, price, type } = props;
+  if(!color) {
+    return null;
+  }
+
+  const { color: htmlColor } = color;
+
   return (
     <>
       <SubtitleElement text='Wybrany kolor lakieru' />
       <StyledText>
-        <ColorType>{type}<br />{text}</ColorType>
-        <ShowColor />
+        <div>
+          <ColorType>{type}<br />{text}</ColorType>
+        </div>
+        <ShowColor color={htmlColor} />
         <PriceElement> + {price} zł</PriceElement>
       </StyledText>
     </>

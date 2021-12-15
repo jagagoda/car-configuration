@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Main } from './Main/Main';
 
@@ -8,19 +8,22 @@ justify-content: center;
 align-items: start;
 width: 100%;
 height: 100vh;
-padding-top: 50px;
+padding-top: 20px;
 font-family: Roboto, sans-serif;
+ @media screen and (max-width: 320px) {
+padding-top: 0;
+    }
+       @media only screen and (min-width: 350px) and (orientation: landscape) {
+  padding-top:0;
+}
 `;
 
 const App: FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const toggle = () => {
-    setIsOpen(isOpen => !isOpen)
-  }
+
   return (
     <Styles>
       <div className="App">
-        <Main isOpen={isOpen} toggle={toggle} />
+        <Main />
       </div>
     </Styles>
 
