@@ -18,6 +18,12 @@ padding-bottom: 15px;
 line-height: 0;
 `;
 
+const EngineData = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+`;
+
 type Props = {
   engine: Engine | null,
   price: number
@@ -26,17 +32,20 @@ type Props = {
 export const EngineElement: FC<Props> = (props: Props) => {
   const { engine } = props;
 
-  if(!engine) {
+  if (!engine) {
     return null;
   }
 
-  const { gearbox, acceleration } = engine;
+  const { gearbox, acceleration, vMax, price } = engine;
 
   return (
     <>
       <SubtitleElement text='Wybrany silnik' />
-      <GearBoxElement><span>{acceleration}</span> {gearbox}</GearBoxElement>
-      <PowerElement>tutaj moc silnika</PowerElement>
+      <EngineData>
+        <GearBoxElement><span>{acceleration}</span> {gearbox}</GearBoxElement>
+        <GearBoxElement><span>{price ? '+ ' + price + ' zł'  : null}</span></GearBoxElement>
+      </EngineData>
+      <PowerElement>0-100km/h: {acceleration}; V-max: {vMax} km/h;</PowerElement>
     </>
   )
 }

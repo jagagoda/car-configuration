@@ -1,4 +1,4 @@
-import React,  {FC} from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components';
 
 const Styles = styled.div`
@@ -16,14 +16,17 @@ font-size: 14px;
 `;
 
 interface Props {
-text: string;
-price: number;
+  text?: string;
+  manufacturer?: string;
+  gearbox?: string;
+  model?: string;
+  price?: number;
 }
 
-export const Element: FC<Props> = ({text, price}: Props) => {
+export const Element: FC<Props> = ({ manufacturer, model, gearbox, price, text }: Props) => {
   return (
     <Styles>
-      <DataElement>{text}</DataElement>
+      <DataElement>{text}{manufacturer} {model} {gearbox}</DataElement>
       <PriceElement>{price} zł</PriceElement>
     </Styles>
   )

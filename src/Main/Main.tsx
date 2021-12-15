@@ -81,6 +81,7 @@ transform: translateX(-50%);
 cursor: pointer;
 `;
 
+
 export const Main: FC = () => {
   const [variantData, setVariantData] = useState(null);
   const [color, setColor] = useState<Color | null>(null);
@@ -123,7 +124,7 @@ export const Main: FC = () => {
   }, [variantData]);
 
   useEffect(() => {
-    axios.get('https://vehicle-configuration.herokuapp.com/configuration/1')
+    axios.get('https://vehicle-configuration.herokuapp.com/configuration/4')
       .then(response => {
         const { data } = response;
 
@@ -138,7 +139,9 @@ export const Main: FC = () => {
   if(loading || !data || !engine || !color) {
     return <div>Loading...</div> ;
   }
-
+  const { name: carColor, description: colorDescription } = color;
+  const { model: carModel, manufacturer: carManufacturer } = data;
+  const { gearbox: carGearbox } = engine;
   const { price: vehiclePrice } = data;
   const { price: enginePrice  } = engine;
   const { price: colorPrice } = color;
@@ -154,8 +157,8 @@ export const Main: FC = () => {
   return (
     <StyledWindow isOpen={isOpen}>
       <MainTitle />
-      <Element text='tutaj będą dane samochodu' price={vehiclePrice} />
-      <Element text='wyposażenie dodatkowe' price={getAdditionalPrice()} />
+      <Element manufacturer={carManufacturer} model={carModel} gearbox={carGearbox}  price={vehiclePrice} />
+      <Element text='Wyposażenie dodatkowe' price={getAdditionalPrice()} />
       <Line />
       <SumElement text='całkowita cena' price={getTotalPrice()} />
       <BorderLine isOpen={isOpen}>
@@ -169,7 +172,7 @@ export const Main: FC = () => {
       <Collapse isOpen={isOpen}>
         <EngineElement engine={engine} price={enginePrice} />
         <Line />
-        <CarColorElement color={color} type='tutaj kolor' text='tutaj opis koloru' price={colorPrice} />
+        <CarColorElement color={color} name={carColor} description={colorDescription} price={colorPrice} />
       </Collapse>
     </StyledWindow>
   )
