@@ -1,4 +1,3 @@
-import React, { FC } from 'react'
 import styled from 'styled-components';
 
 const Styles = styled.div`
@@ -12,14 +11,4 @@ font-size: 17px;
 font-weight: bold;
 `;
 
-interface Props {
-  text: string;
-}
-
-export const SubtitleElement: FC<Props> = ({ text }: Props) => {
-  return (
-    <Styles>
-      <Subtitle>{text}</Subtitle>
-    </Styles>
-  )
-}
+export { Styles, Subtitle };

@@ -1,86 +1,13 @@
 import React, { FC, useState, useEffect } from 'react'
-import styled from 'styled-components';
-import { RiArrowDownSLine } from 'react-icons/ri';
-import { RiArrowUpSLine } from 'react-icons/ri';
-import { Element } from './Element';
-import { Line } from './Line';
-import { SumElement } from './SumElement';
-import { MainTitle } from '../Main/MainTitle'
-import { CarColorElement } from './CarColorElement';
-import { EngineElement } from './EngineElement';
-import { BorderLineType, DataProps, Engine, Color, VehicleResponse } from "./types";
+import { ButtonMore, StyledIconUp, StyledIconDown, Collapse, BorderLine, StyledWindow } from './Styles';
+import { Element } from '../ConfigurationElement/Element';
+import { Line } from '../Line/Line';
+import { SumElement } from '../Summary/Summary';
+import { MainTitle } from '../MainTitle/MainTitle'
+import { CarColorElement} from '../CarColor/CarColor';
+import { EngineElement } from '../Engine/Engine';
+import { DataProps, Engine, Color, VehicleResponse } from "../types";
 import axios from 'axios';
-
-const StyledWindow = styled.div<BorderLineType>`
-position: relative;
-min-width: 500px;
-width: 100%;
-border: 2px solid #006;
-${props => !props.isOpen && `
-  border-bottom: none;
-`}
-padding: 15px 30px 20px 30px;
-height: 100%;
-
-  @media screen and (max-width: 900px) {
-    min-width: 310px;
-    width: 70%;
-  }
-    @media screen and (max-width: 600px) and (min-width: 350px) {
-      min-width: 290px;
-      padding: 5px 15px
-    }
-     @media screen and (max-width: 349px) {
-      min-width: 250px;
-      padding: 5px 15px
-    }
-`;
-
-const BorderLine = styled.div<BorderLineType>`
-  border-top: 2px solid #006;
-  position: relative;
-  top: 22px;
-  ${props => !props.isOpen && `
-    left: -32px;
-    width: calc(100% + 64px);
-
-    @media screen and (max-width: 380px) {
-      left: -15px;
-      width: calc(100% + 30px);
-    }
-  `}
-`
-
-const Collapse = styled.div<BorderLineType>`
-  height: ${props => props.isOpen ? 300 : 0}px;
-  overflow: hidden;
-  transition: all .3s linear;
-  ${props => props.isOpen && `
-    padding-top: 36px;
-  `}
-`;
-
-const StyledIconUp = styled(RiArrowUpSLine)`
-`;
-
-const StyledIconDown = styled(RiArrowDownSLine)``;
-
-const ButtonMore = styled.button`
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: white;
-border: none;
-outline: none;
-font-size: 17px;
-padding: 10px 20px;
-position: absolute;
-bottom: -24px;
-left: 50%;
-transform: translateX(-50%);
-cursor: pointer;
-`;
-
 
 export const Main: FC = () => {
   const [variantData, setVariantData] = useState(null);
@@ -90,6 +17,7 @@ export const Main: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const toggle = () => {
     setIsOpen(isOpen => !isOpen)
   }
@@ -124,7 +52,7 @@ export const Main: FC = () => {
   }, [variantData]);
 
   useEffect(() => {
-    axios.get('https://vehicle-configuration.herokuapp.com/configuration/4')
+    axios.get('https://vehicle-configuration.herokuapp.com/configuration/10')
       .then(response => {
         const { data } = response;
 
@@ -141,23 +69,26 @@ export const Main: FC = () => {
   }
   const { name: carColor, description: colorDescription } = color;
   const { model: carModel, manufacturer: carManufacturer } = data;
-  const { gearbox: carGearbox } = engine;
+  const { gearbox: carGearbox, power: carPower } = engine;
   const { price: vehiclePrice } = data;
   const { price: enginePrice  } = engine;
   const { price: colorPrice } = color;
 
+
   const getTotalPrice = () => {
-    return vehiclePrice + getAdditionalPrice();
+    const result = vehiclePrice + getAdditionalPrice();
+    return result;
   }
 
   const getAdditionalPrice = () => {
-    return enginePrice + colorPrice;
+     const result = enginePrice + colorPrice;
+     return result;
   }
 
   return (
     <StyledWindow isOpen={isOpen}>
       <MainTitle />
-      <Element manufacturer={carManufacturer} model={carModel} gearbox={carGearbox}  price={vehiclePrice} />
+      <Element manufacturer={carManufacturer} model={carModel} gearbox={carGearbox}  price={vehiclePrice} power={carPower} />
       <Element text='Wyposażenie dodatkowe' price={getAdditionalPrice()} />
       <Line />
       <SumElement text='całkowita cena' price={getTotalPrice()} />

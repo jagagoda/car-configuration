@@ -1,10 +1,5 @@
 import React, { FC } from 'react'
-import styled from 'styled-components';
-
-const Title = styled.h3`
-font-size: 23px;
-font-weight: bold;
-`;
+import { Title } from './Styles';
 
 interface Props {
 
