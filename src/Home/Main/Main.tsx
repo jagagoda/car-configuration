@@ -52,7 +52,7 @@ export const Main: FC = () => {
   }, [variantData]);
 
   useEffect(() => {
-    axios.get('https://vehicle-configuration.herokuapp.com/configuration/10')
+    axios.get('https://vehicle-configuration.herokuapp.com/configuration/1')
       .then(response => {
         const { data } = response;
 
